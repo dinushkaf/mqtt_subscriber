@@ -13,11 +13,12 @@ This image will compile go code and build it in the build folder and run it in a
 
 # Dependencies
 Install the following dependencies before running the code in local PC.
-* go get gopkg.in/mgo.v2
-* go get github.com/eclipse/paho.mqtt.golang
+* `go get gopkg.in/mgo.v2`
+* `go get github.com/eclipse/paho.mqtt.golang`
+<br>
 and also install the folowwing if they are not installed to  get mqtt work correctly
-* go get golang.org/x/net/websocket
-* go get golang.org/x/net/proxy
+* `go get golang.org/x/net/websocket`
+* `go get golang.org/x/net/proxy`
 
 # Parameters
 Change the following environmental variables according to your need.(see deploy section to see how to change them)
