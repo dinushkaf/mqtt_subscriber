@@ -4,10 +4,7 @@ MAINTAINER Dinushka Fernando (dinimz@live.com)
 
 # install dependencies
 RUN go get github.com/eclipse/paho.mqtt.golang
-RUN go get github.com/mongodb/mongo-go-driver/mongo
-
-# env
-ENV MONGO_HOST 192.169.0.1
+RUN go get gopkg.in/mgo.v2
 
 # copy app
 ADD . /app
