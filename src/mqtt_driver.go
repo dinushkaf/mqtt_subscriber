@@ -12,16 +12,16 @@ import (
 
 //MQTTMessage - Message structure for mqtt json object
 type MQTTMessage struct {
-	Serial       string  `json:"serial"`
-	TimeStamp    string  `json:"timestamp"`
-	Temperature  float32 `json:"temp"`
-	Humidity     float32 `json:"humid"`
-	PM2          float32 `json:"pm2"`
-	HCHCHO       float32 `json:"hchcho"`
-	Ozone        float32 `json:"ozone"`
-	CO2          float32 `json:"co2"`
-	TVOC         float32 `json:"tvoc"`
-	ReceivedTime string  `json:"receivedTime"`
+	Serial       string  `json:"SerialNo"`
+	TimeStamp    string  `json:"Timestamp"`
+	Temperature  float32 `json:"Temp"`
+	Humidity     float32 `json:"Humid"`
+	PM2          float32 `json:"PM2"`
+	HCHCHO       float32 `json:"Hchco"`
+	Ozone        float32 `json:"Ozone"`
+	CO2          float32 `json:"Co2"`
+	TVOC         float32 `json:"Tvoc"`
+	ReceivedTime string  `json:"ReceivedTime"`
 }
 
 var mqttClient MQTT.Client
