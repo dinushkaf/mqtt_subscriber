@@ -30,7 +30,7 @@ func initMongo() bool {
 }
 
 //function for save in mongoDB
-func insertRecord(msg MQTTMessage) bool {
+func insertRecord(msg MongoDocument) bool {
 	err := collection.Insert(msg)
 	if err != nil {
 		fmt.Println(err)

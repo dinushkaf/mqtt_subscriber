@@ -32,10 +32,10 @@ var mongoConfig = MongoConfig{
 }
 
 var mqttConfig = MQTTConfig{
-	host:     getEnv("MQTT_HOST", "52.77.234.8"),
+	host:     getEnv("MQTT_HOST", "localhost"),
 	port:     getEnv("MQTT_PORT", "1883"),
-	username: getEnv("MQTT_USER", ""),
-	password: getEnv("MQTT_PASSWORD", ""),
+	username: getEnv("MQTT_USER", "abc"),
+	password: getEnv("MQTT_PASSWORD", "abc"),
 	topic:    getEnv("MQTT_TOPIC", "sensor_data"),
 	qos:      getEnv("MQTT_QOS", "0"),
 }

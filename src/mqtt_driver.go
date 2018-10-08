@@ -12,16 +12,29 @@ import (
 
 //MQTTMessage - Message structure for mqtt json object
 type MQTTMessage struct {
-	Serial       string  `json:"SerialNo" bson:"SerialNo"`
-	TimeStamp    string  `json:"Timestamp" bson:"Timestamp"`
-	Temperature  float32 `json:"Temp" bson:"Temp"`
-	Humidity     float32 `json:"Humid" bson:"Humid"`
-	PM2          float32 `json:"PM2" bson:"PM2"`
-	HCHCHO       float32 `json:"Hchco" bson:"Hchco"`
-	Ozone        float32 `json:"Ozone" bson:"Ozone"`
-	CO2          float32 `json:"Co2" bson:"Co2"`
-	TVOC         float32 `json:"Tvoc" bson:"Tvoc"`
-	ReceivedTime string  `json:"ReceivedTime" bson:"ReceivedTime"`
+	Serial      string  `json:"SerialNo" bson:"SerialNo"`
+	TimeStamp   string  `json:"Timestamp" bson:"Timestamp"`
+	Temperature float32 `json:"Temp" bson:"Temp"`
+	Humidity    float32 `json:"Humid" bson:"Humid"`
+	PM2         float32 `json:"PM2" bson:"PM2"`
+	HCHCO       float32 `json:"Hchco" bson:"Hchco"`
+	Ozone       float32 `json:"Ozone" bson:"Ozone"`
+	CO2         float32 `json:"Co2" bson:"Co2"`
+	TVOC        float32 `json:"Tvoc" bson:"Tvoc"`
+}
+
+//MongoDocument - Message structure for mongo document object
+type MongoDocument struct {
+	Serial       string    `json:"SerialNo" bson:"SerialNo"`
+	TimeStamp    time.Time `json:"Timestamp" bson:"Timestamp"`
+	Temperature  float32   `json:"Temp" bson:"Temp"`
+	Humidity     float32   `json:"Humid" bson:"Humid"`
+	PM2          float32   `json:"PM2" bson:"PM2"`
+	HCHCO        float32   `json:"Hchco" bson:"Hchco"`
+	Ozone        float32   `json:"Ozone" bson:"Ozone"`
+	CO2          float32   `json:"Co2" bson:"Co2"`
+	TVOC         float32   `json:"Tvoc" bson:"Tvoc"`
+	ReceivedTime time.Time `json:"ReceivedTime" bson:"ReceivedTime"`
 }
 
 var mqttClient MQTT.Client
@@ -72,9 +85,9 @@ func subscribMqtt() {
 		if err != nil {
 			fmt.Printf("Error : %s", err)
 		} else {
-			fmt.Println(msg)
-			msg.ReceivedTime = time.Now().Format("20060102150405")
-			insertRecord(msg)
+			mDoc := MQTT2Mongo(msg)
+			mDoc.ReceivedTime = time.Now()
+			insertRecord(mDoc)
 		}
 	}
 }
@@ -82,4 +95,19 @@ func subscribMqtt() {
 func disconnectMQTT() {
 	mqttClient.Disconnect(250)
 	fmt.Println("Subscriber Disconnected")
+}
+
+//MQTT2Mongo : this will convert Mqtt msg in to mongo document
+func MQTT2Mongo(msg MQTTMessage) MongoDocument {
+	var tempDoc MongoDocument
+	tempDoc.Serial = msg.Serial
+	tempDoc.TimeStamp, _ = time.Parse("20060102150405", msg.TimeStamp)
+	tempDoc.CO2 = msg.CO2
+	tempDoc.HCHCO = msg.HCHCO
+	tempDoc.Humidity = msg.Humidity
+	tempDoc.Ozone = msg.Ozone
+	tempDoc.PM2 = msg.PM2
+	tempDoc.Temperature = msg.Temperature
+	tempDoc.TVOC = msg.TVOC
+	return tempDoc
 }
