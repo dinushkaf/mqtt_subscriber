@@ -17,23 +17,25 @@ type MQTTMessage struct {
 	Temperature float32 `json:"Temp" bson:"Temp"`
 	Humidity    float32 `json:"Humid" bson:"Humid"`
 	PM2         float32 `json:"PM2" bson:"PM2"`
-	HCHCO       float32 `json:"Hchco" bson:"Hchco"`
+	HCHO        float32 `json:"HCHO" bson:"HCHO"`
 	Ozone       float32 `json:"Ozone" bson:"Ozone"`
-	CO2         float32 `json:"Co2" bson:"Co2"`
-	TVOC        float32 `json:"Tvoc" bson:"Tvoc"`
+	CO2         float32 `json:"CO2" bson:"CO2"`
+	CO          float32 `json:"CO" bson:"CO"`
+	TVOC        float32 `json:"TVOC" bson:"TVOC"`
 }
 
 //MongoDocument - Message structure for mongo document object
 type MongoDocument struct {
 	Serial       string    `json:"SerialNo" bson:"SerialNo"`
-	TimeStamp    time.Time `json:"Timestamp" bson:"Timestamp"`
+	TimeStamp    float64   `json:"Timestamp" bson:"Timestamp"`
 	Temperature  float32   `json:"Temp" bson:"Temp"`
 	Humidity     float32   `json:"Humid" bson:"Humid"`
 	PM2          float32   `json:"PM2" bson:"PM2"`
-	HCHCO        float32   `json:"Hchco" bson:"Hchco"`
+	HCHO         float32   `json:"HCHO" bson:"HCHO"`
 	Ozone        float32   `json:"Ozone" bson:"Ozone"`
-	CO2          float32   `json:"Co2" bson:"Co2"`
-	TVOC         float32   `json:"Tvoc" bson:"Tvoc"`
+	CO2          float32   `json:"CO2" bson:"CO2"`
+	CO           float32   `json:"CO" bson:"CO"`
+	TVOC         float32   `json:"TVOC" bson:"TVOC"`
 	ReceivedTime time.Time `json:"ReceivedTime" bson:"ReceivedTime"`
 }
 
@@ -101,9 +103,10 @@ func disconnectMQTT() {
 func MQTT2Mongo(msg MQTTMessage) MongoDocument {
 	var tempDoc MongoDocument
 	tempDoc.Serial = msg.Serial
-	tempDoc.TimeStamp, _ = time.Parse("20060102150405", msg.TimeStamp)
+	tempDoc.TimeStamp, _ = strconv.ParseFloat(msg.TimeStamp, 64) //time.Parse("20060102150405", msg.TimeStamp)
 	tempDoc.CO2 = msg.CO2
-	tempDoc.HCHCO = msg.HCHCO
+	tempDoc.CO = msg.CO
+	tempDoc.HCHO = msg.HCHO
 	tempDoc.Humidity = msg.Humidity
 	tempDoc.Ozone = msg.Ozone
 	tempDoc.PM2 = msg.PM2
